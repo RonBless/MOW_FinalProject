@@ -1,5 +1,5 @@
 from DAL.DatabaseHelper import DatabaseHelper
-from DAL.Movie.MovieData import MovieData
+from DAL.Movie_Entity.MovieData import MovieData
 
 
 class MovieDal:
