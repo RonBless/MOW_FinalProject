@@ -1,4 +1,3 @@
-import pymongo
 from pymongo import MongoClient
 
 
@@ -23,7 +22,11 @@ class DatabaseHelper:
             self.db = self.client.Mow
             self.tweets = self.db.Tweet
             self.movies = self.db.Movie
+            if self.movies is None:
+                self.InitializeDatabase()
 
+    def InitializeDatabase(self):
+        return
 
     def getMovies(self):
         return self.movies
@@ -34,15 +37,15 @@ class DatabaseHelper:
 
 
 
- # ********** POST Action in DB in Tweet Table **********
+ # ********** POST Action in DB in Tweet_Entity Table **********
 # post = {"_id": 1, "name": "tim", "score": 5}
 # collection.insert_one(post)
 
-# ********** GET Action in DB in Tweet Table **********
+# ********** GET Action in DB in Tweet_Entity Table **********
 # query = .find_one({"name": "tim"})
 # print(query)
 # for result in query:
 #     print(result)
 
-# ********** Delete Action in DB in Tweet Table **********
+# ********** Delete Action in DB in Tweet_Entity Table **********
 # collection.delete_one({"_id": 1})
