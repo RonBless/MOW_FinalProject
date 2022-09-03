@@ -5,17 +5,17 @@ class DatabaseHelper:
     __instance = None
 
     @staticmethod
-    def getInstance():
+    def getInstance(): #singleton - we want to connect to the db only once
         """ Static access method. """
         if DatabaseHelper.__instance is None:
-            DatabaseHelper()
+            DatabaseHelper()  #call constructor
         return DatabaseHelper.__instance
 
     def __init__(self):
         """ Virtually private constructor. """
         if DatabaseHelper.__instance is not None:
             raise Exception("This class is a singleton!")
-        else:
+        else: #if the class doesn't exist, we create it
             DatabaseHelper.__instance = self
             self.client = MongoClient(
                 "mongodb+srv://ronb:759r759R@mowdb.6vqlus6.mongodb.net/?retryWrites=true&w=majority")
