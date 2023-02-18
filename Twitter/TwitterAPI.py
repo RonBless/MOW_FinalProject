@@ -1,5 +1,5 @@
 import snscrape.modules.twitter as sntwitter
-from Tweet_Entity.TweetData import TweetData
+from DAL.Tweet_Entity.TweetData import TweetData
 
 
 class TwitterAPI:
@@ -41,6 +41,3 @@ class TwitterAPI:
                 print(data)
         return tweets
 
-
-twitter_api = TwitterAPI.getInstance()
-tweets_list = twitter_api.getTweets("Spider-man: No Way Home", "2021-01-01", "2021-12-16")
