@@ -1,4 +1,6 @@
 from DAL.Movie_Entity.MovieDal import MovieDal
+from DAL.Tweet_Entity.TweetDal import TweetDal
+from NLP.NLP_Module import NLP
 from Twitter.TwitterAPI import TwitterAPI
 
 
@@ -14,16 +16,20 @@ def onStartup():
 
 if __name__ == '__main__':
     # onStartup()
-    # name = "Spider-man: No Way Home"
-    # dal = MovieDal()
-    # data = dal.getMovie(name)
-    # print(data)
-    #
-    # dal = TweetDal()
-    # data = dal.getMovieTweets(data.name)
-    # for tweet in data:
-    #     print(tweet)
+    name = "Spider-man: No Way Home"
+    dal = MovieDal()
+    data = dal.getMovie(name)
+    print(data)
+
+    dal = TweetDal()
+    data = dal.getMovieTweets(data.name)
+    for tweet in data:
+        print(tweet)
 
     twitter_api = TwitterAPI.getInstance()
     twitter_api.setLimit(1)
     tweets_list = twitter_api.getTweets("Spider-man: No Way Home", "2021-01-01", "2021-12-16")
+
+    nlp = NLP.getInstance()
+
+    print(nlp.predict(tweets_list[0].message))

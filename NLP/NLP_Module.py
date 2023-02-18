@@ -1,10 +1,27 @@
 from Twitter.TwitterAPI import TwitterAPI
 from transformers import pipeline
 
-sentiment_analysis = pipeline("sentiment-analysis", model="siebert/sentiment-roberta-large-english")
 
-twitter_api = TwitterAPI.getInstance()
-twitter_api.setLimit(1)
-tweets_list = twitter_api.getTweets("Spider-man: No Way Home", "2021-01-01", "2021-12-16")
+class NLP:
+    __instance = None
 
-print(sentiment_analysis(tweets_list[0].message))
+    # Singleton implementation
+    @staticmethod
+    def getInstance():
+        """ Static access method. """
+        if NLP.__instance is None:
+            NLP()
+        return NLP.__instance
+
+    def __init__(self):
+        """ Virtually private constructor. """
+        if NLP.__instance is not None:
+            raise Exception("This class is a singleton!")
+        else:
+            NLP.__instance = self
+            self.module = pipeline("sentiment-analysis", model="siebert/sentiment-roberta-large-english")
+
+    def predict(self, message):
+        result = self.module(message)[0]
+        return result['label'], result['score']
+
