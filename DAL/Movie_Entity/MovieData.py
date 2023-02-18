@@ -1,9 +1,19 @@
+from DAL.BaseData import BaseData
 
-class MovieData:
-    def __init__(self, id, name, earnings):
-        self.id = id
+
+class MovieData(BaseData):
+
+    def __init__(self, name, earnings, release_date):
         self.name = name
         self.earnings = earnings
+        self.release_date = release_date
 
     def __str__(self):
-        return "id:{} ,name: {}, Opening week earnings: {}\n".format(self.id, self.name, self.earnings)
+        return "name: {},release date: {}, Opening week earnings: {}\n".format(self.name, self.release_date,
+                                                                               self.earnings)
+
+    def __dic__(self):
+        return {'name': self.name,
+                'earnings': self.earnings,
+                'release date': self.release_date,
+                }
