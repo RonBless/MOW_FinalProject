@@ -1,17 +1,23 @@
+from DAL.BaseDal import BaseDal
 from DAL.DatabaseHelper import DatabaseHelper
 from DAL.Tweet_Entity.TweetData import TweetData
 
 
-class TweetDal:
+class TweetDal(BaseDal):
 
-    def getMovieTweets(self, movie_id):
-        mydb = DatabaseHelper.getInstance()
-        tweet_collection = mydb.getTweets()
-        allDocuments = tweet_collection.find({"movieId": movie_id})
+    def getMovieTweets(self, movie_name):
+        tweet_collection = self.db.getTweets()
+        all_documents = tweet_collection.find({"movie_name": movie_name})
         # Check for successful query
-        if allDocuments is None:
+        if all_documents is None:
             return None
-        allTweets = []
-        for document in allDocuments:
-            allTweets.append(TweetData(document["_id"], document["movieId"], document["message"], document["likes"], document["replies"], document["shares"]))
-        return allTweets
+        all_tweets = []
+        for document in all_documents:
+            all_tweets.append(TweetData(document["movie_name"], document["message"], document["likes"],
+                                        document["replies"], document["shares"]))
+        return all_tweets
+
+    # override abstract method
+    def save(self, entity):
+        self.db.getTweets().insert_one(entity.__dic__())
+

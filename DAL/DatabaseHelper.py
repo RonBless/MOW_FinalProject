@@ -1,3 +1,4 @@
+import pymongo
 from pymongo import MongoClient
 
 
@@ -33,6 +34,7 @@ class DatabaseHelper:
 
     def getTweets(self):
         return self.tweets
+
 
 
 
