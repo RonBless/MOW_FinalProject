@@ -1,5 +1,9 @@
+import pandas as pd
 import pymongo
 from pymongo import MongoClient
+
+from DAL.Movie_Entity.MovieData import MovieData
+from Scripts.ExtractMovieTweets import getMovieTweets
 
 
 class DatabaseHelper:
@@ -23,17 +27,23 @@ class DatabaseHelper:
             self.db = self.client.Mow
             self.tweets = self.db.Tweet
             self.movies = self.db.Movie
-            if self.movies is None:
+            self.movies.delete_many({})
+            if self.movies.count_documents({}) == 0:
                 self.InitializeDatabase()
 
+    # Will go over each movie and extract the Tweets about the movie
     def InitializeDatabase(self):
         return
+
 
     def getMovies(self):
         return self.movies
 
     def getTweets(self):
         return self.tweets
+
+    def saveMovie(self, movie):
+        self.movies.insert_one(movie.__dic__())
 
 
 
