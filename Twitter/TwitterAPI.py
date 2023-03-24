@@ -49,7 +49,7 @@ class TwitterAPI:
         scrapper = sntwitter.TwitterSearchScraper(self.language_filter + query).get_items()
 
         # Create a ThreadPoolExecutor with 16 worker threads
-        with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=512) as executor:
             # Submit tasks to the executor for each tweet in the generator, up to the maximum number of results
             tasks = [executor.submit(self.process_tweet, movie_name, tweet, tweets) for i, tweet in enumerate(scrapper)
                      if i < self.limit]

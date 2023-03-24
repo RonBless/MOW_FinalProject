@@ -8,7 +8,7 @@ from Twitter.TwitterAPI import TwitterAPI
 
 # def onStartup():
 #     print("Welcome to MOW!\n")
-#     print("We are gonna help you estimate your desired movie opening weekend revenue according to Twitter\n")
+#     print("We are going to help you estimate your desired movie opening weekend revenue according to Twitter\n")
 #     print("Please enter the Movie_Entity Name\n")
 #     movie_name = input()
 #     print("We are on it!\n Loading...\n")
