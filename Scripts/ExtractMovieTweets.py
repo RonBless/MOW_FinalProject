@@ -1,4 +1,4 @@
-from NLP.NLP_Module import NLP
+from NLP.NLP_Model import NLP
 from Twitter.TwitterAPI import TwitterAPI
 from threading import Thread, Lock
 import concurrent.futures

@@ -23,11 +23,12 @@ class DatabaseHelper:
         else:
             DatabaseHelper.__instance = self
             self.client = MongoClient(
-                "mongodb+srv://ronb:759r759R@mowdb.6vqlus6.mongodb.net/?retryWrites=true&w=majority")
+                "mongodb+srv://ronb:AfekaFinalsProject@mowdb.6vqlus6.mongodb.net/?retryWrites=true&w=majority")
             self.db = self.client.Mow
             self.tweets = self.db.Tweet
             self.movies = self.db.Movie
-            self.movies.delete_many({})
+            self.models = self.db.Model
+            # self.movies.delete_many({})
             if self.movies.count_documents({}) == 0:
                 self.InitializeDatabase()
 
@@ -35,15 +36,20 @@ class DatabaseHelper:
     def InitializeDatabase(self):
         return
 
-
     def getMovies(self):
         return self.movies
 
     def getTweets(self):
         return self.tweets
 
+    def getModels(self):
+        return self.models
+
     def saveMovie(self, movie):
         self.movies.insert_one(movie.__dic__())
+
+    def saveModel(self, model):
+        self.models.insert_one(model.__dic__())
 
 
 
