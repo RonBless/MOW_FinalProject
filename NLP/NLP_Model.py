@@ -19,9 +19,9 @@ class NLP:
             raise Exception("This class is a singleton!")
         else:
             NLP.__instance = self
-            self.module = pipeline("sentiment-analysis", model="siebert/sentiment-roberta-large-english")
+            self.model = pipeline("sentiment-analysis", model="siebert/sentiment-roberta-large-english")
 
     def predict(self, message):
-        result = self.module(message)[0]
+        result = self.model(message)[0]
         return result['label'], result['score']
 

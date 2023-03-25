@@ -1,5 +1,4 @@
 from DAL.BaseDal import BaseDal
-from DAL.DatabaseHelper import DatabaseHelper
 from DAL.Movie_Entity.MovieData import MovieData
 
 
@@ -14,11 +13,11 @@ class MovieDal(BaseDal):
         return MovieDal.__instance
 
     def __init__(self):
-        super.__init__()
         """ Virtually private constructor. """
         if MovieDal.__instance is not None:
             raise Exception("This class is a singleton!")
         else:
+            super().__init__()
             MovieDal.__instance = self
 
     def getMovie(self, name):

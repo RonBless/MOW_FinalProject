@@ -1,10 +1,5 @@
-from DAL.DatabaseHelper import DatabaseHelper
-from DAL.Movie_Entity.MovieDal import MovieDal
-from DAL.Tweet_Entity.TweetDal import TweetDal
-from NLP.NLP_Module import NLP
-from Scripts.InitializeTrainingDataset import add_Tweets_data_to_movies
-from Twitter.TwitterAPI import TwitterAPI
-
+from GlobalSettings import GlobalSettings
+from Regression_Model.Regression_model import RegModel
 
 # def onStartup():
 #     print("Welcome to MOW!\n")
@@ -31,12 +26,16 @@ if __name__ == '__main__':
     #
     # nlp = NLP.getInstance()
     #
-    #twitter_api.setLimit(10)
+    # twitter_api.setLimit(10)
 
     # twitter_api = TwitterAPI.getInstance()
     # tweets_list = twitter_api.getTweets("ThereWill Be Blood", "2007-07-26", "2008-01-24")
     # for t in tweets_list:
     #     print(t.message)
 
-    add_Tweets_data_to_movies()
+    # add_Tweets_data_to_movies()
+
+    GlobalSettings.getInstance()
+    reg_model = RegModel.getInstance()
+    reg_model.TestModel()
 
