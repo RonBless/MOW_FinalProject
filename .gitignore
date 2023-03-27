@@ -3,5 +3,4 @@ workspace.xml
 __pycache__/
 .env
 .venv/
-/backend/.idea
-/.idea/inspectionProfiles/Project_Default.xml
+/.idea
