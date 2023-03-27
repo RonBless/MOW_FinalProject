@@ -2,7 +2,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.metrics import mean_absolute_percentage_error
 from datetime import datetime
-from GlobalSettings import GlobalSettings
+from Backend.GlobalSettings import GlobalSettings
 from DAL.Model_Entity.ModelDal import ModelDal
 from DAL.Model_Entity.ModelData import ModelData
 from Scripts.DataPreprocessing import PreprocessTrainingData, PreprocessTestData
