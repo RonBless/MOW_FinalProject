@@ -3,12 +3,14 @@ from Backend.DAL.BaseData import BaseData
 
 class ModelData(BaseData):
 
-    def __init__(self, name, byte_string, date, genre_categories, rating_categories, mape):
+    def __init__(self, name, model_byte_string, date, genre_categories, rating_categories,
+                 standard_scaler_model_byte_string, mape):
         self.name = name
-        self.byte_string = byte_string
+        self.model = model_byte_string
         self.date = date
         self.genre_categories = genre_categories
         self.rating_categories = rating_categories
+        self.standard_scaler = standard_scaler_model_byte_string
         self.mape = mape
 
     def __str__(self):
@@ -16,8 +18,9 @@ class ModelData(BaseData):
 
     def __dic__(self):
         return {'name': self.name,
-                'byte_string': self.byte_string,
+                'model': self.model,
                 'date': self.date,
                 'genre_categories': self.genre_categories,
                 'rating_categories': self.rating_categories,
+                'standard_scaler': self.standard_scaler,
                 'mape': self.mape}

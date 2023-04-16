@@ -44,14 +44,19 @@ def preprocessData(name, date, genre, rating, budget):
     add_Tweets_data_to_movies(g_settings.path)
 
 
-
-
 def onStartup():
     reg_model = RegModel.getInstance()
     name, date, genre, rating, budget = getInputFromUser()
     preprocessData(name, date, genre, rating, budget)
 
 
+def getMovieOpeningWeekend():
+    url = './Result_super.csv'
+    reg_model = RegModel.getInstance()
+    result = reg_model.Predict(url)
+
+
 g_settings = GlobalSettings.getInstance()
-onStartup()
+getMovieOpeningWeekend()
+# onStartup()
 

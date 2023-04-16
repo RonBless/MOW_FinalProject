@@ -12,14 +12,14 @@ def PreprocessTrainingData(url):
     rating_categories = pd.Categorical(x['rating']).categories
 
     # Normalization
-    x_norm = NormalizeData(x)
+    x_norm, sc = NormalizeData(x)
 
     # Encoding
     df_encoded = Encoding(x)
 
     # Merge categorical and numeric fields
     x = x_norm.join(df_encoded)
-    return x, y, genre_categories, rating_categories
+    return x, y, genre_categories, rating_categories, sc
 
 
 def FeatureSelectionAndCreation(df):
@@ -42,12 +42,18 @@ def FeatureSelectionAndCreation(df):
     return x, y
 
 
-def NormalizeData(x):
+def NormalizeData(x, sc=None):
     numerical_df = x.drop(['genre', 'rating'], axis=1)
-    cols = numerical_df.columns.to_list()
-    sc = StandardScaler()
-    x_norm = sc.fit_transform(numerical_df)
-    return pd.DataFrame(x_norm, columns=cols)
+
+    # Train
+    if sc is None:
+        sc = StandardScaler()
+        x_norm = sc.fit_transform(numerical_df)
+        return pd.DataFrame(x_norm, columns=numerical_df.columns), sc
+    # Test
+    else:
+        x_norm = sc.transform(numerical_df)
+        return pd.DataFrame(x_norm, columns=numerical_df.columns)
 
 
 def Encoding(x):
@@ -56,23 +62,22 @@ def Encoding(x):
     return pd.get_dummies(df_categories, columns=['genre', 'rating'])
 
 
-def PreprocessTestData(url, genre_categories, rating_categories):
+def PreprocessTestData(url, genre_categories, rating_categories, standard_scaler):
     df_test = pd.read_csv(url)
 
     x, y = FeatureSelectionAndCreation(df_test)
-
     # add the categories to the test data frame
     x['genre'] = pd.Categorical(x['genre'], categories=genre_categories)
     x['rating'] = pd.Categorical(x['rating'], categories=rating_categories)
 
     # Normalization
-    x_norm = NormalizeData(x)
-
+    x_norm = NormalizeData(x, standard_scaler)
     # Encoding
     df_encoded = Encoding(x)
 
     # Merge categorical and numeric fields
     x = x_norm.join(df_encoded)
+
     return x, y
 
 

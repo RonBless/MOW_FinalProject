@@ -26,8 +26,8 @@ class ModelDal(BaseDal):
         # Check for successful query
         if model is None:
             return None
-        return ModelData(model["name"], model["byte_string"], model["date"], model["genre_categories"],
-                         model["rating_categories"], model["mape"])
+        return ModelData(model["name"], model["model"], model["date"], model["genre_categories"],
+                         model["rating_categories"], model["standard_scaler"], model["mape"])
 
     def save(self, model):
         self.db.saveModel(model)

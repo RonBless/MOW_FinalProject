@@ -1,3 +1,6 @@
+import json
+
+import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.metrics import mean_absolute_percentage_error
@@ -7,6 +10,7 @@ from Backend.DAL.Model_Entity.ModelData import ModelData
 from Backend.GlobalSettings import GlobalSettings
 import pickle
 from Backend.Scripts.DataPreprocessing import PreprocessTrainingData, PreprocessTestData
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 
 class RegModel:
@@ -38,10 +42,12 @@ class RegModel:
                 self.genre_categories = model_data.genre_categories
                 self.rating_categories = model_data.rating_categories
                 self.mape = model_data.mape
-                self.model = pickle.loads(model_data.byte_string)
+                self.model = pickle.loads(model_data.model)
+                self.standard_scaler = pickle.loads(model_data.standard_scaler)
+
             else:
                 self.name = GlobalSettings.getInstance().model_name
-                self.x_train, self.y_train, self.genre_categories, self.rating_categories\
+                self.x_train, self.y_train, self.genre_categories, self.rating_categories, self.standard_scaler\
                     = PreprocessTrainingData(self.url)
                 self.model = Sequential()
                 # The Input Layer :
@@ -55,6 +61,9 @@ class RegModel:
 
                 # The Output Layer :
                 self.model.add(Dense(1, kernel_initializer='normal', activation='linear'))
+
+                # Optimizer Setup :
+
                 # Compile the network :
                 self.model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])
 
@@ -78,19 +87,32 @@ class RegModel:
 
     def TestModel(self):
         test_url = GlobalSettings.getInstance().test_url
-        self.x_test, self.y_test = PreprocessTestData(test_url, self.genre_categories, self.rating_categories)
+        self.x_test, self.y_test = PreprocessTestData(test_url,
+                                                      self.genre_categories,
+                                                      self.rating_categories,
+                                                      self.standard_scaler)
 
         # predict using the trained model
         y_pred = self.model.predict(self.x_test)
 
+        # y_true: actual values, y_pred: predicted values
+
+        # calculate the MAE
+        mae = mean_absolute_error(self.y_test, y_pred)
+        print("MAE", mae)
+
+        # calculate the RMSE
+        rmse = mean_squared_error(self.y_test, y_pred, squared=False)
+        print("RMSE", rmse)
+
         # calculate the MAPE
         self.mape = mean_absolute_percentage_error(self.y_test, y_pred)
-
         print("MAPE:", self.mape)
 
     def SaveModel(self):
         # serialize the NN model to a byte string
         serialize_model = pickle.dumps(self.model)
+        serialize_sc = pickle.dumps(self.standard_scaler)
 
         dal = ModelDal.getInstance()
 
@@ -99,4 +121,15 @@ class RegModel:
                            self.date,
                            self.genre_categories.tolist(),
                            self.rating_categories.tolist(),
+                           serialize_sc,
                            self.mape))
+
+    def Predict(self, url):
+        df = pd.read_csv(url)
+        print(df)
+        x_req, y_req = PreprocessTestData(url, self.genre_categories, self.rating_categories, self.standard_scaler)
+        # print('x: ', x_req)
+        # print('y: ', y_req)
+        y = self.model.predict(x_req)
+        print("Predicted Opening Weekend Revenue:", y[0][0], '$')
+        return y
