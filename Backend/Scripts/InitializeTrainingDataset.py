@@ -3,15 +3,14 @@ import pandas as pd
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
+from Backend.GlobalSettings import GlobalSettings
+from Backend.Scripts.ExtractMovieTweets import getMovieTweets
 
-# Create us a training data set of 1700+ movies since 2007, with 'name', 'imdbID', 'released' (released date),
+
+# Create us a training data set of 300 movies since 2016, with 'name', 'imdbID', 'released' (released date),
 # 'half_year_back' (half a year before the released date), and 'opening_weekend' (our target)
-from Scripts.ExtractMovieTweets import getMovieTweets
-
-
 def createTrainingDatasetFromScratch():
-    url = 'https://gist.githubusercontent.com/RonBless/cf0ccf5c4034b61a2ef785bd0a6c7964/raw' \
-          '/404f33068e60f256a813ef4b6309b7f8a100f591/movies.csv '
+    url = GlobalSettings.raw_data_url
     df = pd.read_csv(url)
 
     df = df[df['year'] >= 2010]
@@ -81,34 +80,26 @@ def get_opening_weekend(movie_id):
     return None
 
 
-def add_Tweets_data_to_movies():
-    url = 'https://gist.githubusercontent.com/RonBless/c28669efc24fc305d9e7a6c42d6f5e6c/raw/' \
-          '17ff27509f6b05cd55b163b138d216dc3251e92e/Movies_without_tweets_dataset_2010'
+def add_Tweets_data_to_movies(url=GlobalSettings.getInstance().movies_without_tweets_url):
     df = pd.read_csv(url)
-    # df.loc[:, ['positive_tweets', 'negative_tweets', 'positive_likes', 'negative_likes', 'positive_comments',
-    #            'negative_comments', 'positive_shares', 'negative_shares', 'avg_positive_score',
-    #            'avg_negative_score']] = \
-    #     df.apply(lambda s_row: pd.Series(getMovieTweets(s_row['name'], s_row['half_year_back'],
-    #                                                     s_row['released_minus1'])), axis=1)
     df = df.assign(**{'positive_tweets': 0, 'negative_tweets': 0, 'positive_likes': 0, 'negative_likes': 0,
                       'positive_comments': 0, 'negative_comments': 0, 'positive_shares': 0, 'negative_shares': 0,
                       'avg_positive_score': 0, 'avg_negative_score': 0})
 
     for index, row in df.iterrows():
-        if index >= 884:
-            positive_tweets, negative_tweets, positive_likes, negative_likes, positive_comments, negative_comments, \
-                positive_shares, negative_shares, avg_positive_score, avg_negative_score = \
-                getMovieTweets(row['name'], row['half_year_back'], row['released_minus1'])
+        positive_tweets, negative_tweets, positive_likes, negative_likes, positive_comments, negative_comments, \
+            positive_shares, negative_shares, avg_positive_score, avg_negative_score = \
+            getMovieTweets(row['name'], row['half_year_back'], row['released_minus1'])
 
-            df.at[index, 'positive_tweets'] = positive_tweets
-            df.at[index, 'negative_tweets'] = negative_tweets
-            df.at[index, 'positive_likes'] = positive_likes
-            df.at[index, 'negative_likes'] = negative_likes
-            df.at[index, 'positive_comments'] = positive_comments
-            df.at[index, 'negative_comments'] = negative_comments
-            df.at[index, 'positive_shares'] = positive_shares
-            df.at[index, 'negative_shares'] = negative_shares
-            df.at[index, 'avg_positive_score'] = avg_positive_score
-            df.at[index, 'avg_negative_score'] = avg_negative_score
-            print(row['name'], positive_tweets + negative_tweets)
-            df.to_csv('Training_Dataset_movies_2010_{}.csv'.format(index), index=False)
+        df.at[index, 'positive_tweets'] = positive_tweets
+        df.at[index, 'negative_tweets'] = negative_tweets
+        df.at[index, 'positive_likes'] = positive_likes
+        df.at[index, 'negative_likes'] = negative_likes
+        df.at[index, 'positive_comments'] = positive_comments
+        df.at[index, 'negative_comments'] = negative_comments
+        df.at[index, 'positive_shares'] = positive_shares
+        df.at[index, 'negative_shares'] = negative_shares
+        df.at[index, 'avg_positive_score'] = avg_positive_score
+        df.at[index, 'avg_negative_score'] = avg_negative_score
+        print(row['name'], positive_tweets + negative_tweets)
+        df.to_csv('Training_Dataset_movies_2010_{}.csv'.format(index), index=False)

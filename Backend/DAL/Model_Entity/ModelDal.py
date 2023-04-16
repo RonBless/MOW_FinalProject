@@ -1,5 +1,5 @@
-from DAL.BaseDal import BaseDal
-from DAL.Model_Entity.ModelData import ModelData
+from Backend.DAL.BaseDal import BaseDal
+from Backend.DAL.Model_Entity.ModelData import ModelData
 
 
 class ModelDal(BaseDal):

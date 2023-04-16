@@ -1,6 +1,5 @@
-from DAL.BaseDal import BaseDal
-from DAL.DatabaseHelper import DatabaseHelper
-from DAL.Tweet_Entity.TweetData import TweetData
+from Backend.DAL.BaseDal import BaseDal
+from Backend.DAL.Tweet_Entity.TweetData import TweetData
 
 
 class TweetDal(BaseDal):

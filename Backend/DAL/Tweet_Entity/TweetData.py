@@ -1,4 +1,4 @@
-from DAL.BaseData import BaseData
+from Backend.DAL.BaseData import BaseData
 
 
 class TweetData(BaseData):

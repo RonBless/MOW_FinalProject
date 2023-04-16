@@ -2,11 +2,11 @@ from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.metrics import mean_absolute_percentage_error
 from datetime import datetime
+from Backend.DAL.Model_Entity.ModelDal import ModelDal
+from Backend.DAL.Model_Entity.ModelData import ModelData
 from Backend.GlobalSettings import GlobalSettings
-from DAL.Model_Entity.ModelDal import ModelDal
-from DAL.Model_Entity.ModelData import ModelData
-from Scripts.DataPreprocessing import PreprocessTrainingData, PreprocessTestData
 import pickle
+from Backend.Scripts.DataPreprocessing import PreprocessTrainingData, PreprocessTestData
 
 
 class RegModel:

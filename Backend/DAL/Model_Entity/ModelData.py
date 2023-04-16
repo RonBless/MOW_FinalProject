@@ -1,4 +1,4 @@
-from DAL.BaseData import BaseData
+from Backend.DAL.BaseData import BaseData
 
 
 class ModelData(BaseData):
@@ -21,4 +21,3 @@ class ModelData(BaseData):
                 'genre_categories': self.genre_categories,
                 'rating_categories': self.rating_categories,
                 'mape': self.mape}
-

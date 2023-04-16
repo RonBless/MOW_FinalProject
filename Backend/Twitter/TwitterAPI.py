@@ -1,6 +1,6 @@
 import snscrape.modules.twitter as sntwitter
-from DAL.Tweet_Entity.TweetData import TweetData
 import concurrent.futures
+from Backend.DAL.Tweet_Entity.TweetData import TweetData
 
 
 class TwitterAPI:
@@ -44,6 +44,7 @@ class TwitterAPI:
 
         ]
         query = "(" + " OR ".join(search_phrases) + ") since:" + start_date + " until:" + end_date
+        print(search_phrases)
         count = 0
         tweets: list[TweetData] = []
         scrapper = sntwitter.TwitterSearchScraper(self.language_filter + query).get_items()

@@ -1,5 +1,5 @@
-from DAL.BaseDal import BaseDal
-from DAL.Movie_Entity.MovieData import MovieData
+from Backend.DAL.BaseDal import BaseDal
+from Backend.DAL.Movie_Entity.MovieData import MovieData
 
 
 class MovieDal(BaseDal):

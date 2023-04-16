@@ -1,9 +1,4 @@
-import pandas as pd
-import pymongo
 from pymongo import MongoClient
-
-from DAL.Movie_Entity.MovieData import MovieData
-from Scripts.ExtractMovieTweets import getMovieTweets
 
 
 class DatabaseHelper:

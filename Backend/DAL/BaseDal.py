@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from DAL.DatabaseHelper import DatabaseHelper
+from Backend.DAL.DatabaseHelper import DatabaseHelper
 
 
 class BaseDal(ABC):
