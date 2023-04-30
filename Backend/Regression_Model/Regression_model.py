@@ -36,7 +36,6 @@ class RegModel:
             self.x_test = None
             self.y_test = None
             if model_data is not None:
-                print("Model_data is not None")
                 self.name = model_data.name
                 self.date = model_data.date
                 self.genre_categories = model_data.genre_categories
@@ -44,7 +43,7 @@ class RegModel:
                 self.mape = model_data.mape
                 self.model = pickle.loads(model_data.model)
                 self.standard_scaler = pickle.loads(model_data.standard_scaler)
-
+                print(self.model.input_shape)
             else:
                 self.name = GlobalSettings.getInstance().model_name
                 self.x_train, self.y_train, self.genre_categories, self.rating_categories, self.standard_scaler\
@@ -61,8 +60,6 @@ class RegModel:
 
                 # The Output Layer :
                 self.model.add(Dense(1, kernel_initializer='normal', activation='linear'))
-
-                # Optimizer Setup :
 
                 # Compile the network :
                 self.model.compile(loss='mean_absolute_error', optimizer='adam', metrics=['mean_absolute_error'])

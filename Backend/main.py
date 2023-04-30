@@ -12,11 +12,11 @@ def getInputFromUser():
     print("We are going to help you estimate your desired movie opening weekend revenue according to Twitter traffic\n")
 
     # Test Code
-    name = "Spider-man: No way home"
-    date = "17/12/2021"
+    name = "John Wick: Chapter 4"
+    date = "23/03/2023"
     genre = "Action"
-    rating = "PG-13"
-    budget = 200000000
+    rating = "R"
+    budget = 100000000
 
     # Production Code
     # name = receiveName()
@@ -24,6 +24,7 @@ def getInputFromUser():
     # genre = receiveGenre()
     # rating = receiveAgeRating()
     # budget = receiveBudget()
+
     print("We are on it!")
     return name, date, genre, rating, budget
 
@@ -40,23 +41,23 @@ def preprocessData(name, date, genre, rating, budget):
     df['released_minus1'] = df['released_minus1'].astype(str)     # Convert back to string
 
     df.fillna(0)
-    df.to_csv(g_settings.path, index=False)
-    add_Tweets_data_to_movies(g_settings.path)
+    df.to_csv(g_settings.request_path, index=False)
+    add_Tweets_data_to_movies(g_settings.request_path, g_settings.request_path)
+
+
+def getMovieOpeningWeekend():
+    reg_model = RegModel.getInstance()
+    result = reg_model.Predict(g_settings.request_path)
 
 
 def onStartup():
     reg_model = RegModel.getInstance()
     name, date, genre, rating, budget = getInputFromUser()
     preprocessData(name, date, genre, rating, budget)
-
-
-def getMovieOpeningWeekend():
-    url = './Result_super.csv'
-    reg_model = RegModel.getInstance()
-    result = reg_model.Predict(url)
+    getMovieOpeningWeekend()
 
 
 g_settings = GlobalSettings.getInstance()
-getMovieOpeningWeekend()
+onStartup()
 # onStartup()
 

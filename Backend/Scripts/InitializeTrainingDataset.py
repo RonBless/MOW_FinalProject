@@ -80,7 +80,7 @@ def get_opening_weekend(movie_id):
     return None
 
 
-def add_Tweets_data_to_movies(url=GlobalSettings.getInstance().movies_without_tweets_url):
+def add_Tweets_data_to_movies(url=GlobalSettings.getInstance().movies_without_tweets_url, path = None):
     df = pd.read_csv(url)
     df = df.assign(**{'positive_tweets': 0, 'negative_tweets': 0, 'positive_likes': 0, 'negative_likes': 0,
                       'positive_comments': 0, 'negative_comments': 0, 'positive_shares': 0, 'negative_shares': 0,
@@ -102,4 +102,8 @@ def add_Tweets_data_to_movies(url=GlobalSettings.getInstance().movies_without_tw
         df.at[index, 'avg_positive_score'] = avg_positive_score
         df.at[index, 'avg_negative_score'] = avg_negative_score
         print(row['name'], positive_tweets + negative_tweets)
-        df.to_csv('Training_Dataset_movies_2010_{}.csv'.format(index), index=False)
+        if path is None:
+            df.to_csv('Training_Dataset_movies_2010_{}.csv'.format(index), index=False)
+        else:
+            df.to_csv(path, index=False)
+

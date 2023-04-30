@@ -27,5 +27,5 @@ class GlobalSettings:
                                              '4ae08ab67ba24a25c6c3ada7b4e770dc/raw/' \
                                              '493456b555ee6bb3fe52c1addc7e9e1effce0388/' \
                                              'Movies_without_tweets_dataset_2010.csv'
-            self.path = '../request.csv'
+            self.request_path = '../requested_movie.csv'
 
