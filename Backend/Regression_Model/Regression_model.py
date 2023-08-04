@@ -43,7 +43,6 @@ class RegModel:
                 self.mape = model_data.mape
                 self.model = pickle.loads(model_data.model)
                 self.standard_scaler = pickle.loads(model_data.standard_scaler)
-                print(self.model.input_shape)
             else:
                 self.name = GlobalSettings.getInstance().model_name
                 self.x_train, self.y_train, self.genre_categories, self.rating_categories, self.standard_scaler\
@@ -125,8 +124,6 @@ class RegModel:
         df = pd.read_csv(url)
         print(df)
         x_req, y_req = PreprocessTestData(url, self.genre_categories, self.rating_categories, self.standard_scaler)
-        # print('x: ', x_req)
-        # print('y: ', y_req)
         y = self.model.predict(x_req)
         print("Predicted Opening Weekend Revenue:", y[0][0], '$')
         return y
