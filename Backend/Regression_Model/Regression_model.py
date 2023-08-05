@@ -127,3 +127,15 @@ class RegModel:
         y = self.model.predict(x_req)
         print("Predicted Opening Weekend Revenue:", y[0][0], '$')
         return y
+
+    def PredictWithError(self, url):
+        df = pd.read_csv(url)
+        print(df)
+        x_req, y_req = PreprocessTestData(url, self.genre_categories, self.rating_categories, self.standard_scaler)
+        y_pred = self.model.predict(x_req)
+        print("Predicted Opening Weekend Revenue:", y_pred[0][0], '$')
+
+        # calculate the MAPE
+        mape = mean_absolute_percentage_error(y_req, y_pred)
+        print("MAPE:", mape)
+        return y_pred

@@ -6,7 +6,7 @@ from Backend.Regression_Model.Regression_model import RegModel
 from Backend.Scripts.ExtractMovieTweets import getMovieTweets
 from Backend.Scripts.InitializeTrainingDataset import add_Tweets_data_to_movies
 
-
+# ====================== Production functions =============
 def getInputFromUser():
     print("Welcome to MOW!\n")
     print("We are going to help you estimate your desired movie opening weekend revenue according to Twitter traffic\n")
@@ -47,17 +47,41 @@ def preprocessData(name, date, genre, rating, budget):
 
 def getMovieOpeningWeekend():
     reg_model = RegModel.getInstance()
-    result = reg_model.Predict(g_settings.request_path)
+    return reg_model.Predict(g_settings.request_path)
 
 
 def onStartup():
-    reg_model = RegModel.getInstance()
+    RegModel.getInstance()
     name, date, genre, rating, budget = getInputFromUser()
     preprocessData(name, date, genre, rating, budget)
-    getMovieOpeningWeekend()
+    print(getMovieOpeningWeekend())
+
+# ====================== DEMO functions =============
 
 
+def FindInTestData():
+    name = receiveName()
+    print("We are on it!")
+    df = pd.read_csv(g_settings.test_url)
+    # Convert the 'name' column to lowercase
+    df['name'] = df['name'].str.lower()
+    # Find the index of the row where 'name' equals the given string
+    index_to_keep = df.index[df['name'] == name.lower()]
+    # Create a new data frame with only the selected row
+    selected_row_df = df.loc[index_to_keep]
+    selected_row_df.reset_index(drop=True, inplace=True)
+    # selected_row_df.drop(columns='Unnamed: 0', inplace=True)
+    selected_row_df.to_csv(g_settings.request_path, index=False)
+
+
+def onDemoStartup():
+    reg_model = RegModel.getInstance()
+    while True:
+        FindInTestData()
+        reg_model.PredictWithError(g_settings.request_path)
+
+
+# ====================== Main  ======================
 g_settings = GlobalSettings.getInstance()
 onStartup()
-# onStartup()
 

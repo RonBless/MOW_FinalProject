@@ -58,7 +58,6 @@ def NormalizeData(x, sc=None):
 
 def Encoding(x):
     df_categories = x[['genre', 'rating']].copy()
-    df_categories
     return pd.get_dummies(df_categories, columns=['genre', 'rating'])
 
 
