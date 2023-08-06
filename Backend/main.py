@@ -83,5 +83,5 @@ def onDemoStartup():
 
 # ====================== Main  ======================
 g_settings = GlobalSettings.getInstance()
-onStartup()
+onDemoStartup()
 

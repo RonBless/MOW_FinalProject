@@ -137,5 +137,5 @@ class RegModel:
 
         # calculate the MAPE
         mape = mean_absolute_percentage_error(y_req, y_pred)
-        print("MAPE:", mape)
+        print("% Error From the actual revenue:", mape*100)
         return y_pred
