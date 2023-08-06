@@ -1,0 +1,2 @@
+name,rating,genre,released,budget,released_minus1,half_year_back,imdbID,opening_weekend,positive_tweets,negative_tweets,positive_likes,negative_likes,positive_comments,negative_comments,positive_shares,negative_shares,avg_positive_score,avg_negative_score
+The Super Mario Bros.,PG,Animation,2023-04-05,100000000,2023-04-04,2022-10-04,,,8635,1540,1617953,461181,31561,3920,297907,55443,0.9953208799919919,0.9892670020654604

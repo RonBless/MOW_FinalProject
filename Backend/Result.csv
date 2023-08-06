@@ -1,0 +1,2 @@
+name,rating,genre,released,budget,released_minus1,half_year_back,imdbID,opening_weekend,positive_tweets,negative_tweets,positive_likes,negative_likes,positive_comments,negative_comments,positive_shares,negative_shares,avg_positive_score,avg_negative_score
+Spider-man: No way home,PG-13,Action,2021-12-17,200000000,2021-12-16,2021-06-17,,,17340,10674,960912,508612,21582,14041,106676,47889,0.9889522504641522,0.9877644286455902
