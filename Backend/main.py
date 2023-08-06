@@ -1,12 +1,13 @@
 import pandas as pd
-from Backend.DAL.Movie_Entity.MovieDal import MovieDal
 from Backend.GlobalSettings import GlobalSettings
 from Backend.InputOutputMethods import *
 from Backend.Regression_Model.Regression_model import RegModel
-from Backend.Scripts.ExtractMovieTweets import getMovieTweets
 from Backend.Scripts.InitializeTrainingDataset import add_Tweets_data_to_movies
-
+import sys
+import time
 # ====================== Production functions =============
+
+
 def getInputFromUser():
     print("Welcome to MOW!\n")
     print("We are going to help you estimate your desired movie opening weekend revenue according to Twitter traffic\n")
@@ -62,6 +63,8 @@ def onStartup():
 def FindInTestData():
     name = receiveName()
     print("We are on it!")
+    print("Extracting tweets from Twitter")
+    loading_bar(10)
     df = pd.read_csv(g_settings.test_url)
     # Convert the 'name' column to lowercase
     df['name'] = df['name'].str.lower()
@@ -74,11 +77,30 @@ def FindInTestData():
     selected_row_df.to_csv(g_settings.request_path, index=False)
 
 
+def loading_bar(duration):
+    # Set the width of the loading bar
+    bar_width = 50
+
+    # Calculate the time interval between updates
+    interval = duration / bar_width
+
+    # Start the loading process
+    print("Loading...")
+    for i in range(bar_width + 1):
+        sys.stdout.write("[{}{}] {}%".format("=" * i, " " * (bar_width - i), i * 2))
+        sys.stdout.flush()
+        time.sleep(interval)
+
+        # Move the cursor back to the beginning of the line
+        sys.stdout.write("\r")
+
+
 def onDemoStartup():
     reg_model = RegModel.getInstance()
     while True:
         FindInTestData()
         reg_model.PredictWithError(g_settings.request_path)
+        print("\n")
 
 
 # ====================== Main  ======================
